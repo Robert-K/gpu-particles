@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: ba67b00827a85fd4d925ebdd860c919d
+timeCreated: 1508095143
+licenseType: Free
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - simulationParent: {instanceID: 0}
+  - emissionMesh: {instanceID: 0}
+  - meshRenderer: {instanceID: 0}
+  - skinnedMeshRenderer: {instanceID: 0}
+  - particleMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  - particleMaterial: {fileID: 2100000, guid: 95e811e8352634d48b4a011549171333, type: 2}
+  - computeShader: {fileID: 7200000, guid: 0b1875f5ee1c0f74e8fd58d53e9ad64d, type: 3}
+  - renderMaterial: {fileID: 2100000, guid: 948526039016676468e30bb55e267544, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
