@@ -76,8 +76,8 @@ PlayerSettings:
   bakeCollisionMeshes: 1
   forceSingleInstance: 0
   resizableWindow: 0
-  useMacAppStoreValidation: 0
-  macAppStoreCategory: public.app-category.games
+  useMacAppStoreValidation: 1
+  macAppStoreCategory: 
   gpuSkinning: 1
   graphicsJobs: 1
   xboxPIXTextureCapture: 0
@@ -149,7 +149,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Android: com.Company.ProductName
-    Standalone: unity.DefaultCompany.Adam_Interior_pack_2
+    Standalone: 
     Tizen: com.Company.ProductName
     iOS: com.Company.ProductName
     tvOS: com.Company.ProductName
