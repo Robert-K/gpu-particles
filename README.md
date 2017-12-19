@@ -17,8 +17,8 @@ Made with Unity 2017.2.0f3. Might work with older versions. Only tested on Deskt
 - [x] Implement 'Emission Extrapolation' to compensate emission at high velocities
 - [x] Implement 'Linear Drag'
 - [x] Implement 'Time Scale'
+- [x] Use namespace
 - [ ] Document code
-- [ ] Use namespaces
 - [ ] Fix glitches caused by 'Inherit Velocity' after big timesteps
 - [ ] Fix 'Max Particles' change at runtime
 - [ ] Add 'Particle' Module to change appearance
