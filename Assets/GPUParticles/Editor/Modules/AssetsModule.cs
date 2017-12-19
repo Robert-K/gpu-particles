@@ -1,25 +1,28 @@
 using UnityEngine;
 using UnityEditor;
 
-public class AssetsModule : Module
+namespace GPUParticles
 {
-    SerializedProperty computeShader;
-    SerializedProperty renderMaterial;
-
-    public AssetsModule(SerializedObject serializedObject)
+    public class AssetsModule : Module
     {
-        computeShader = serializedObject.FindProperty("computeShader");
-        renderMaterial = serializedObject.FindProperty("renderMaterial");
-    }
+        SerializedProperty computeShader;
+        SerializedProperty renderMaterial;
 
-    public override void Draw()
-    {
-        DrawGUI("Assets", DrawContent);
-    }
+        public AssetsModule(SerializedObject serializedObject)
+        {
+            computeShader = serializedObject.FindProperty("computeShader");
+            renderMaterial = serializedObject.FindProperty("renderMaterial");
+        }
 
-    private void DrawContent()
-    {
-        EditorGUILayout.PropertyField(computeShader, new GUIContent("Compute Shader"));
-        EditorGUILayout.PropertyField(renderMaterial, new GUIContent("Render Material"));
+        public override void Draw()
+        {
+            DrawGUI("Assets", DrawContent);
+        }
+
+        private void DrawContent()
+        {
+            EditorGUILayout.PropertyField(computeShader, new GUIContent("Compute Shader"));
+            EditorGUILayout.PropertyField(renderMaterial, new GUIContent("Render Material"));
+        }
     }
 }

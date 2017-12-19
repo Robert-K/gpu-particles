@@ -1,35 +1,38 @@
 using UnityEngine;
 using UnityEditor;
 
-public class NoiseModule : Module
+namespace GPUParticles
 {
-    SerializedProperty enableNoise;
-
-    SerializedProperty convergence;
-    SerializedProperty convergenceFrequency;
-    SerializedProperty convergenceAmplitude;
-    SerializedProperty viscosity;
-
-    public NoiseModule(SerializedObject serializedObject)
+    public class NoiseModule : Module
     {
-        enableNoise = serializedObject.FindProperty("enableNoise");
+        SerializedProperty enableNoise;
 
-        convergence = serializedObject.FindProperty("convergence");
-        convergenceFrequency = serializedObject.FindProperty("convergenceFrequency");
-        convergenceAmplitude = serializedObject.FindProperty("convergenceAmplitude");
-        viscosity = serializedObject.FindProperty("viscosity");
-    }
+        SerializedProperty convergence;
+        SerializedProperty convergenceFrequency;
+        SerializedProperty convergenceAmplitude;
+        SerializedProperty viscosity;
 
-    public override void Draw()
-    {
-        enableNoise.boolValue = DrawGUI(enableNoise.boolValue, "Noise", DrawContent);
-    }
+        public NoiseModule(SerializedObject serializedObject)
+        {
+            enableNoise = serializedObject.FindProperty("enableNoise");
 
-    private void DrawContent()
-    {
-        EditorGUILayout.PropertyField(convergence, new GUIContent("Convergence"));
-        EditorGUILayout.PropertyField(convergenceFrequency, new GUIContent("Convergence Frequency"));
-        EditorGUILayout.PropertyField(convergenceAmplitude, new GUIContent("Convergence Amplitude"));
-        EditorGUILayout.PropertyField(viscosity, new GUIContent("Viscosity"));
+            convergence = serializedObject.FindProperty("convergence");
+            convergenceFrequency = serializedObject.FindProperty("convergenceFrequency");
+            convergenceAmplitude = serializedObject.FindProperty("convergenceAmplitude");
+            viscosity = serializedObject.FindProperty("viscosity");
+        }
+
+        public override void Draw()
+        {
+            enableNoise.boolValue = DrawGUI(enableNoise.boolValue, "Noise", DrawContent);
+        }
+
+        private void DrawContent()
+        {
+            EditorGUILayout.PropertyField(convergence, new GUIContent("Convergence"));
+            EditorGUILayout.PropertyField(convergenceFrequency, new GUIContent("Convergence Frequency"));
+            EditorGUILayout.PropertyField(convergenceAmplitude, new GUIContent("Convergence Amplitude"));
+            EditorGUILayout.PropertyField(viscosity, new GUIContent("Viscosity"));
+        }
     }
 }

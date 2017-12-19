@@ -1,54 +1,57 @@
 using UnityEngine;
 using UnityEditor;
 
-public class GeneralModule : Module
+namespace GPUParticles
 {
-    SerializedProperty maxParticles;
-    SerializedProperty simulationSpace;
-    SerializedProperty simulationParent;
-    SerializedProperty timeScale;
-
-    Object[] targets;
-
-    public GeneralModule(SerializedObject serializedObject, Object[] targets)
+    public class GeneralModule : Module
     {
-        this.targets = targets;
+        SerializedProperty maxParticles;
+        SerializedProperty simulationSpace;
+        SerializedProperty simulationParent;
+        SerializedProperty timeScale;
 
-        maxParticles = serializedObject.FindProperty("maxParticles");
-        simulationSpace = serializedObject.FindProperty("simulationSpace");
-        simulationParent = serializedObject.FindProperty("simulationParent");
-        timeScale = serializedObject.FindProperty("timeScale");
-    }
+        Object[] targets;
 
-    public override void Draw()
-    {
-        DrawGUI("General", DrawContent);
-    }
-
-    private void DrawContent()
-    {
-        EditorGUILayout.BeginHorizontal();
-        EditorGUI.BeginChangeCheck();
-        maxParticles.intValue = Mathf.Max(1, EditorGUILayout.IntField("Max Particles", maxParticles.intValue));
-        EditorGUILayout.LabelField("(" + Mathf.CeilToInt((float)maxParticles.intValue / GPUParticleEmitter.THREAD_COUNT) * GPUParticleEmitter.THREAD_COUNT + " in Buffer)", Styles.textRight, GUILayout.Width(EditorGUIUtility.labelWidth / 2f));
-        if (EditorGUI.EndChangeCheck())
+        public GeneralModule(SerializedObject serializedObject, Object[] targets)
         {
-            for (int i = 0; i < targets.Length; i++)
+            this.targets = targets;
+
+            maxParticles = serializedObject.FindProperty("maxParticles");
+            simulationSpace = serializedObject.FindProperty("simulationSpace");
+            simulationParent = serializedObject.FindProperty("simulationParent");
+            timeScale = serializedObject.FindProperty("timeScale");
+        }
+
+        public override void Draw()
+        {
+            DrawGUI("General", DrawContent);
+        }
+
+        private void DrawContent()
+        {
+            EditorGUILayout.BeginHorizontal();
+            EditorGUI.BeginChangeCheck();
+            maxParticles.intValue = Mathf.Max(1, EditorGUILayout.IntField("Max Particles", maxParticles.intValue));
+            EditorGUILayout.LabelField("(" + Mathf.CeilToInt((float)maxParticles.intValue / GPUParticleEmitter.THREAD_COUNT) * GPUParticleEmitter.THREAD_COUNT + " in Buffer)", Styles.textRight, GUILayout.Width(EditorGUIUtility.labelWidth / 2f));
+            if (EditorGUI.EndChangeCheck())
             {
-                GPUParticleEmitter temp = (GPUParticleEmitter)targets[i];
-                temp.DispatchInit();
+                for (int i = 0; i < targets.Length; i++)
+                {
+                    GPUParticleEmitter temp = (GPUParticleEmitter)targets[i];
+                    temp.DispatchInit();
+                }
             }
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.Space();
+
+            EditorGUILayout.PropertyField(simulationSpace, new GUIContent("Simulation Space"));
+            if (simulationSpace.enumValueIndex == (int)SimulationSpace.Custom)
+            {
+                EditorGUILayout.PropertyField(simulationParent, new GUIContent("Simulation Parent"));
+            }
+
+            timeScale.floatValue = Mathf.Max(0f, EditorGUILayout.FloatField("Time Scale", timeScale.floatValue));
         }
-        EditorGUILayout.EndHorizontal();
-
-        EditorGUILayout.Space();
-
-        EditorGUILayout.PropertyField(simulationSpace, new GUIContent("Simulation Space"));
-        if (simulationSpace.enumValueIndex == (int)SimulationSpace.Custom)
-        {
-            EditorGUILayout.PropertyField(simulationParent, new GUIContent("Simulation Parent"));
-        }
-
-        timeScale.floatValue = Mathf.Max(0f, EditorGUILayout.FloatField("Time Scale", timeScale.floatValue));
     }
 }

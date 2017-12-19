@@ -1,25 +1,28 @@
 using UnityEngine;
 using UnityEditor;
 
-public class LifetimeModule : Module
+namespace GPUParticles
 {
-    SerializedProperty minLifetime;
-    SerializedProperty maxLifetime;
-
-    public LifetimeModule(SerializedObject serializedObject)
+    public class LifetimeModule : Module
     {
-        minLifetime = serializedObject.FindProperty("minLifetime");
-        maxLifetime = serializedObject.FindProperty("maxLifetime");
-    }
+        SerializedProperty minLifetime;
+        SerializedProperty maxLifetime;
 
-    public override void Draw()
-    {
-        DrawGUI("Lifetime", DrawContent);
-    }
+        public LifetimeModule(SerializedObject serializedObject)
+        {
+            minLifetime = serializedObject.FindProperty("minLifetime");
+            maxLifetime = serializedObject.FindProperty("maxLifetime");
+        }
 
-    private void DrawContent()
-    {
-        EditorGUILayout.PropertyField(minLifetime, new GUIContent("Min Lifetime"));
-        EditorGUILayout.PropertyField(maxLifetime, new GUIContent("Max Lifetime"));
+        public override void Draw()
+        {
+            DrawGUI("Lifetime", DrawContent);
+        }
+
+        private void DrawContent()
+        {
+            EditorGUILayout.PropertyField(minLifetime, new GUIContent("Min Lifetime"));
+            EditorGUILayout.PropertyField(maxLifetime, new GUIContent("Max Lifetime"));
+        }
     }
 }

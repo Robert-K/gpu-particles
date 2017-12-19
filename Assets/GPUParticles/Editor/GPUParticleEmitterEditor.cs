@@ -2,30 +2,32 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 
-[CustomEditor(typeof(GPUParticleEmitter)), CanEditMultipleObjects]
-public class GPUParticleEmitterEditor : Editor
+namespace GPUParticles
 {
-    private static GPUParticleEmitterEditor instance;
-
-    private List<Module> modules;
-
-    private Texture2D logo;
-
-    public static GPUParticleEmitterEditor GetInstance()
+    [CustomEditor(typeof(GPUParticleEmitter)), CanEditMultipleObjects]
+    public class GPUParticleEmitterEditor : Editor
     {
-        return instance;
-    }
+        private static GPUParticleEmitterEditor instance;
 
-    private void OnEnable()
-    {
-        instance = this;
+        private List<Module> modules;
 
-        if (logo == null)
+        private Texture2D logo;
+
+        public static GPUParticleEmitterEditor GetInstance()
         {
-            logo = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/GPUParticles/Resources/Logo.png");
+            return instance;
         }
 
-        modules = new List<Module>
+        private void OnEnable()
+        {
+            instance = this;
+
+            if (logo == null)
+            {
+                logo = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/GPUParticles/Resources/Logo.png");
+            }
+
+            modules = new List<Module>
         {
             new SystemModule(targets),
             new GeneralModule(serializedObject, targets),
@@ -37,22 +39,23 @@ public class GPUParticleEmitterEditor : Editor
             new ConstantInfluenceModule(serializedObject),
             new AssetsModule(serializedObject),
         };
-    }
-
-    public override void OnInspectorGUI()
-    {
-        serializedObject.Update();
-
-        EditorGUILayout.LabelField(new GUIContent(logo), Styles.title, GUILayout.Height(EditorGUIUtility.singleLineHeight * 4f));
-        EditorGUILayout.LabelField("Version " + GPUParticleEmitter.VERSION + " (C) Robert Kossessa 2017", Styles.title);
-
-        GUI.color = Color.white;
-
-        foreach (Module cur in modules)
-        {
-            cur.Draw();
         }
 
-        serializedObject.ApplyModifiedProperties();
+        public override void OnInspectorGUI()
+        {
+            serializedObject.Update();
+
+            EditorGUILayout.LabelField(new GUIContent(logo), Styles.title, GUILayout.Height(EditorGUIUtility.singleLineHeight * 4f));
+            EditorGUILayout.LabelField("Version " + GPUParticleEmitter.VERSION + " (C) Robert Kossessa 2017", Styles.title);
+
+            GUI.color = Color.white;
+
+            foreach (Module cur in modules)
+            {
+                cur.Draw();
+            }
+
+            serializedObject.ApplyModifiedProperties();
+        }
     }
 }
