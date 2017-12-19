@@ -21,6 +21,7 @@ Made with Unity 2017.2.0f3. Might work with older versions. Only tested on Deskt
 - [ ] Fix 'Max Particles' change at runtime
 - [ ] Add 'Particle' Module to change appearance
 - [ ] Make system run in Edit Mode
+- [ ] Change 'Inherit Velocity' to work with transformation matrices
 - [ ] Implement 'External Forces'
 - [ ] Implement 'Screen Space Collision'
 - [ ] Implement other rendering methods (Mesh)
