@@ -685,8 +685,8 @@ PlayerSettings:
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
   cloudProjectId: a028e8b2-74b0-4ed1-949e-9c95b4937e54
-  projectName: New Unity Project
-  organizationId: krasimirnechevski
+  projectName: GPU Particles
+  organizationId: 
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
