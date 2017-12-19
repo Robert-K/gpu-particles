@@ -1,5 +1,5 @@
 # GPU Particles
-A GPU Particle System for Unity
+A GPU Particle System for [Unity](https://unity3d.com/)
 
 ## Screenshots
 <img src="Assets/Screenshots/screenshot3.png" width="400"/> <img src="Assets/Screenshots/screenshot1.png" width="400"/> <img src="Assets/Screenshots/screenshot2.png" width="400"/> <img src="Assets/Screenshots/screenshot0.png" width="400"/>
@@ -7,7 +7,7 @@ A GPU Particle System for Unity
 ## Features
 - GPU-accelerated - Able to handle millions of particles (even without a beast of a PC)
 - Lots of customization options (more to come...)
-- Fancy Inspector:
+- Fancy Editor:
 <img src="https://user-images.githubusercontent.com/34353377/34125986-5fe653d8-e438-11e7-8218-fc62254efc5a.png" width="400"/>
 
 ## System Requirements
