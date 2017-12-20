@@ -11,7 +11,7 @@ A GPU Particle System for [Unity](https://unity3d.com/)
 <img src="https://user-images.githubusercontent.com/34353377/34125986-5fe653d8-e438-11e7-8218-fc62254efc5a.png" width="400"/>
 
 ## System Requirements
-Made with Unity 2017.2.0f3. Might work with older versions. Only tested on Desktop with Nvidia GPU.
+Made with Unity 2017.2 & .3. Might work with older versions. Only tested on Desktop with Nvidia GPU.
 
 ## To do
 - [x] Implement 'Emission Extrapolation' to compensate emission at high velocities
