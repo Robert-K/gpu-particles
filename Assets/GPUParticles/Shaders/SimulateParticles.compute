@@ -42,11 +42,6 @@ RWStructuredBuffer<Particle> particles;
 AppendStructuredBuffer<uint> dead;
 ConsumeStructuredBuffer<uint> alive;
 
-float4x4 viewProjection;
-RWTexture2D<float> depth;
-RWTexture2D<float4> normals;
-float2 screenSize;
-
 float rand(float3 co)
 {
     return frac(sin(dot(co.xyz, float3(12.9898, 78.233, 45.5432))) * 43758.5453);
@@ -79,22 +74,9 @@ float3 curlNoise(float3 coord)
 
     return float3(x, y, z) / EPSILON * 2.0;
 }
-
 float4 getLifeColor(float2 life)
 {
     return colorOverLife.Load(int3(round(life.x / life.y * (float) steps), 0, 0));
-}
-
-float getDepth(float2 uv)
-{
-    float2 coord = float2(uv.x * screenSize.x, uv.y * screenSize.y);
-    return depth[coord].r;
-}
-
-float3 getNormal(float2 uv)
-{
-    float2 coord = float2(uv.x * screenSize.x, uv.y * screenSize.y);
-    return normals[coord].rgb * 2.0f - 1.0f;
 }
 
 [numthreads(THREAD_COUNT, 1, 1)]
@@ -175,14 +157,6 @@ void Update(uint3 id : SV_DispatchThreadID)
         p.velocity += constantForce * time.x;
         p.velocity *= (1 - time.x * linearDrag);
         p.position += (p.velocity + constantVelocity) * time.x;
-        
-        float4 vpPos = mul(viewProjection, float4(p.position, 1.0));
-        float2 uv = vpPos.xy / vpPos.w * 0.5 + 0.5;
-
-        if (vpPos.z / vpPos.w > getDepth(uv))
-        {
-            p.velocity = 0;
-        }
 
         if (colorMode == 1)
         {
