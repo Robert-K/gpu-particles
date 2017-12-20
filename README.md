@@ -18,6 +18,7 @@ Made with Unity 2017.2.0f3. Might work with older versions. Only tested on Deskt
 - [x] Implement 'Linear Drag'
 - [x] Implement 'Time Scale'
 - [x] Use namespace
+- [x] Add 'Dark Skin' option
 - [ ] Document code
 - [ ] Fix glitches caused by 'Inherit Velocity' after big timesteps
 - [ ] Fix 'Max Particles' change at runtime
