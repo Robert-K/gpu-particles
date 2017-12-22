@@ -19,6 +19,7 @@ Made with Unity 2017.2 & .3. Might work with older versions. Only tested on Desk
 - [x] Implement 'Time Scale'
 - [x] Use namespace
 - [x] Add 'Dark Skin' option
+- [x] Implement Size Module
 - [ ] ~~Use geometry shader for billboard particles~~ <- reduces performance
 - [ ] Use time instead of CPU-generated seeds for pseudorandomness
 - [ ] Document code
@@ -31,7 +32,6 @@ Made with Unity 2017.2 & .3. Might work with older versions. Only tested on Desk
 - [ ] Implement 'Screen Space Collision'
 - [ ] Implement other rendering methods (Mesh)
 - [ ] Implement other Emission Shapes
-- [ ] Implement 'Size Over Life'
 - [ ] Implement 'Direction Types' for all Emission Shapes
 - [ ] Use DrawMeshProcedural for draw calls
 
