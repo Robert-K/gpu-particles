@@ -19,7 +19,7 @@ Made with Unity 2017.2 & .3. Might work with older versions. Only tested on Desk
 - [x] Implement 'Time Scale'
 - [x] Use namespace
 - [x] Add 'Dark Skin' option
-- [ ] Use geometry shader for billboard particles <- WIP
+- [ ] ~~Use geometry shader for billboard particles~~ <- reduces performance
 - [ ] Document code
 - [ ] Fix glitches caused by 'Inherit Velocity' after big timesteps
 - [ ] Fix 'Max Particles' change at runtime
