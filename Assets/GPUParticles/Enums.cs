@@ -12,6 +12,11 @@ namespace GPUParticles
         OverLife,
         Random,
     }
+    public enum SizeMode
+    {
+        Constant,
+        OverLife,
+    }
     public enum EmissionShape
     {
         Sphere,

@@ -154,22 +154,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba67b00827a85fd4d925ebdd860c919d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxParticles: 1100000
+  maxParticles: 100000
   simulationSpace: 0
   simulationParent: {fileID: 0}
   timeScale: 1
   colorMode: 1
-  color: {r: 1, g: 1, b: 1, a: 1}
+  color: {r: 1, g: 0, b: 0.972414, a: 1}
   colorOverLife:
     serializedVersion: 2
-    key0: {r: 1, g: 0.9393509, b: 0.8308824, a: 1}
+    key0: {r: 1, g: 0.9393509, b: 0.8308824, a: 0}
     key1: {r: 1, g: 0.4344827, b: 0, a: 1}
-    key2: {r: 1, g: 0.09634942, b: 0.09634942, a: 0}
+    key2: {r: 1, g: 0.09634942, b: 0.09634942, a: 1}
     key3: {r: 0.74264705, g: 0.08706897, b: 0.04368512, a: 0}
     key4: {r: 0.64705884, g: 0.24018613, b: 0.05709344, a: 0}
     key5: {r: 0.36764705, g: 0, b: 0, a: 0}
-    key6: {r: 0, g: 0, b: 0, a: 0}
-    key7: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0.36764705, g: 0, b: 0, a: 0}
+    key7: {r: 0.36764705, g: 0, b: 0, a: 0}
     ctime0: 0
     ctime1: 10216
     ctime2: 19661
@@ -177,19 +177,40 @@ MonoBehaviour:
     ctime4: 40863
     ctime5: 65535
     ctime6: 65535
-    ctime7: 0
+    ctime7: 65535
     atime0: 0
-    atime1: 65535
-    atime2: 0
-    atime3: 0
-    atime4: 0
+    atime1: 2891
+    atime2: 47802
+    atime3: 65535
+    atime4: 65535
     atime5: 0
     atime6: 0
     atime7: 0
     m_Mode: 0
     m_NumColorKeys: 6
-    m_NumAlphaKeys: 2
-  steps: 11
+    m_NumAlphaKeys: 4
+  colorSteps: 16
+  sizeMode: 1
+  size: 0
+  sizeOverLife:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0.26249695
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  sizeSteps: 21
   minLifetime: 1.49
   maxLifetime: 4.62
   enableEmission: 1
@@ -224,9 +245,6 @@ MonoBehaviour:
   constantVelocity: {x: 0, y: 10, z: 0}
   constantForce: {x: 0, y: 0, z: 0}
   linearDrag: 5.24
-  renderingMethod: 0
-  particleMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
-  particleMaterial: {fileID: 2100000, guid: 95e811e8352634d48b4a011549171333, type: 2}
   computeShader: {fileID: 7200000, guid: 0b1875f5ee1c0f74e8fd58d53e9ad64d, type: 3}
   renderMaterial: {fileID: 2100000, guid: 948526039016676468e30bb55e267544, type: 2}
 --- !u!114 &299354620

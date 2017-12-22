@@ -8,7 +8,7 @@ namespace GPUParticles
         SerializedProperty colorMode;
         SerializedProperty color;
         SerializedProperty colorOverLife;
-        SerializedProperty steps;
+        SerializedProperty colorSteps;
 
         Object[] targets;
 
@@ -19,7 +19,7 @@ namespace GPUParticles
             colorMode = serializedObject.FindProperty("colorMode");
             color = serializedObject.FindProperty("color");
             colorOverLife = serializedObject.FindProperty("colorOverLife");
-            steps = serializedObject.FindProperty("steps");
+            colorSteps = serializedObject.FindProperty("colorSteps");
         }
 
         public override void Draw()
@@ -37,7 +37,7 @@ namespace GPUParticles
                     break;
                 case (int)ColorMode.OverLife:
                     EditorGUILayout.PropertyField(colorOverLife, new GUIContent("Gradient"));
-                    steps.intValue = Mathf.Max(1, EditorGUILayout.IntField(new GUIContent("Steps"), steps.intValue));
+                    colorSteps.intValue = Mathf.Max(2, EditorGUILayout.IntField(new GUIContent("Steps"), colorSteps.intValue));
                     for (int i = 0; i < targets.Length; i++)
                     {
                         GPUParticleEmitter temp = (GPUParticleEmitter)targets[i];

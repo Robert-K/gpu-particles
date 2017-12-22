@@ -36,7 +36,12 @@ float3 direction;
 int colorMode;
 float4 color;
 Texture2D<float4> colorOverLife;
-int steps;
+int colorSteps;
+
+int sizeMode;
+float size;
+RWStructuredBuffer<float> sizeOverLife;
+int sizeSteps;
 
 RWStructuredBuffer<Particle> particles;
 AppendStructuredBuffer<uint> dead;
@@ -76,7 +81,11 @@ float3 curlNoise(float3 coord)
 }
 float4 getLifeColor(float2 life)
 {
-    return colorOverLife.Load(int3(round(life.x / life.y * (float) steps), 0, 0));
+    return colorOverLife.Load(int3(round(life.x / life.y * (float) colorSteps), 0, 0));
+}
+float getLifeSize(float2 life)
+{
+    return sizeOverLife[round(life.x / life.y * (float) sizeSteps)];
 }
 
 [numthreads(THREAD_COUNT, 1, 1)]
@@ -120,18 +129,15 @@ void Emit()
     p.position += inheritedPosition;
     p.life.x = 0.0f;
     p.life.y = lifeRange.x + (lifeRange.y - lifeRange.x) * rand(seeds.zxy / (id + 1));
-    if (colorMode == 0)
+    if (colorMode <= 1)
     {
         p.color = color;
-    }
-    else if (colorMode == 1)
-    {
-        p.color = getLifeColor(p.life);
     }
     else
     {
         p.color = float4(rand(seeds.yzx / (id + 1)), rand(seeds.xyz / (id + 1)), rand(seeds.zyx / (id + 1)), 1.0f);
     }
+    p.size = size;
 
     particles[id] = p;
 }
@@ -161,6 +167,10 @@ void Update(uint3 id : SV_DispatchThreadID)
         if (colorMode == 1)
         {
             p.color = getLifeColor(p.life);
+        }
+        if (sizeMode == 1)
+        {
+            p.size = getLifeSize(p.life);
         }
     }
 

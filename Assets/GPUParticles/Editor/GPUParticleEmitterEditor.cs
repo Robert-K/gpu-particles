@@ -32,6 +32,7 @@ namespace GPUParticles
             new SystemModule(targets),
             new GeneralModule(serializedObject, targets),
             new ColorModule(serializedObject, targets),
+            new SizeModule(serializedObject, targets),
             new LifetimeModule(serializedObject),
             new EmissionModule(serializedObject),
             new InheritVelocityModule(serializedObject),

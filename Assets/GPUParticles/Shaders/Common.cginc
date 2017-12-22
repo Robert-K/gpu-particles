@@ -8,6 +8,7 @@ struct Particle
     float3 velocity;
     float2 life; //x = age, y = lifetime
     float4 color;
+    float size;
 };
 
 #endif

@@ -5,7 +5,7 @@ namespace GPUParticles
 {
     public class GPUParticleEmitter : MonoBehaviour
     {
-        public const string VERSION = "0.5.7";
+        public const string VERSION = "2212";
 
         #region Module Variables
 
@@ -21,8 +21,16 @@ namespace GPUParticles
         public ColorMode colorMode;
         public Color color = Color.white;
         public Gradient colorOverLife;
-        public int steps = 16;
+        public int colorSteps = 16;
         private Texture2D colorOverLifeTexture;
+        #endregion
+
+        #region Size
+        public SizeMode sizeMode;
+        public float size = 1f;
+        public AnimationCurve sizeOverLife;
+        private ComputeBuffer sizeOverLifeBuffer;
+        public int sizeSteps = 16;
         #endregion
 
         #region Lifetime
@@ -75,12 +83,6 @@ namespace GPUParticles
         public float linearDrag = 1f;
         #endregion
 
-        #region Rendering
-        public RenderingMethod renderingMethod = RenderingMethod.Billboard;
-        public Mesh particleMesh;
-        public Material particleMaterial;
-        #endregion
-
         #region Assets
         public ComputeShader computeShader;
         public Material renderMaterial;
@@ -98,8 +100,9 @@ namespace GPUParticles
             public Vector3 velocity;
             public Vector2 life; //x = age, y = lifetime
             public Color color;
+            float size;
         }
-        private ComputeBuffer particles, dead, quads, counter;
+        private ComputeBuffer particles, dead, quad, counter;
         private int bufferSize = 100096;
         private int groupCount;
         private int[] counterArray;
@@ -125,38 +128,12 @@ namespace GPUParticles
 
         private void OnRenderObject()
         {
-            switch (renderingMethod)
-            {
-                case RenderingMethod.Billboard:
-                    renderMaterial.SetBuffer("particles", particles);
-                    renderMaterial.SetBuffer("quads", quads);
+            renderMaterial.SetBuffer("particles", particles);
+            renderMaterial.SetBuffer("quad", quad);
 
-                    renderMaterial.SetPass(0);
+            renderMaterial.SetPass(0);
 
-                    Graphics.DrawProcedural(MeshTopology.Quads, 6, dead.count);
-                    break;
-                case RenderingMethod.Mesh:
-                    int alive = GetAliveCount();
-                    Particle[] tmp = new Particle[maxParticles];
-                    particles.GetData(tmp);
-
-                    int l = 0;
-                    for (int i = 0; i < Mathf.CeilToInt(alive / 1000f); i++)
-                    {
-                        Matrix4x4[] matrices = new Matrix4x4[Mathf.CeilToInt(alive / 1000f)];
-                        int j = 0;
-                        for (int k = 0; k < Mathf.Min(1000, maxParticles); k++, l++)
-                        {
-                            if (tmp[l].alive)
-                            {
-                                matrices[j++] = Matrix4x4.Translate(tmp[l].position);
-                            }
-                        }
-                        Graphics.DrawMeshInstanced(particleMesh, 0, particleMaterial, matrices);
-                    }
-
-                    break;
-            }
+            Graphics.DrawProcedural(MeshTopology.Quads, 6, dead.count);
         }
 
         private void OnDestroy()
@@ -175,15 +152,31 @@ namespace GPUParticles
 
         public void UpdateColorOverLifeTexture()
         {
-            steps = Mathf.Max(1, steps);
+            colorSteps = Mathf.Max(2, colorSteps);
 
-            colorOverLifeTexture = new Texture2D(steps, 1);
+            colorOverLifeTexture = new Texture2D(colorSteps, 1);
 
-            for (int i = 0; i < steps; i++)
+            for (int i = 0; i < colorSteps; i++)
             {
-                colorOverLifeTexture.SetPixel(i, 0, colorOverLife.Evaluate(1f / steps * i));
+                colorOverLifeTexture.SetPixel(i, 0, colorOverLife.Evaluate(1f / colorSteps * i));
             }
             colorOverLifeTexture.Apply();
+        }
+
+        public void UpdateSizeOverLifeBuffer()
+        {
+            sizeSteps = Mathf.Max(2, sizeSteps);
+
+            if (sizeOverLifeBuffer != null) sizeOverLifeBuffer.Release();
+            sizeOverLifeBuffer = new ComputeBuffer(sizeSteps, Marshal.SizeOf(typeof(float)));
+
+            float[] temp = new float[sizeSteps];
+            for (int i = 0; i < sizeSteps; i++)
+            {
+                temp[i] = sizeOverLife.Evaluate(1f / sizeSteps * i);
+            }
+
+            sizeOverLifeBuffer.SetData(temp);
         }
 
         public void DispatchInit()
@@ -191,6 +184,7 @@ namespace GPUParticles
             ReleaseBuffers();
 
             UpdateColorOverLifeTexture();
+            UpdateSizeOverLifeBuffer();
 
             previousPositon = transform.position;
 
@@ -212,8 +206,8 @@ namespace GPUParticles
 
             computeShader.Dispatch(initKernel, groupCount, 1, 1);
 
-            quads = new ComputeBuffer(6, Marshal.SizeOf(typeof(Vector3)));
-            quads.SetData(new[]
+            quad = new ComputeBuffer(6, Marshal.SizeOf(typeof(Vector3)));
+            quad.SetData(new[]
             {
             new Vector3(-0.5f,0.5f),
             new Vector3(0.5f,0.5f),
@@ -221,7 +215,7 @@ namespace GPUParticles
             new Vector3(0.5f,-0.5f),
             new Vector3(-0.5f,-0.5f),
             new Vector3(-0.5f,0.5f)
-        });
+            });
         }
         public void DispatchEmit(int count)
         {
@@ -242,8 +236,25 @@ namespace GPUParticles
                     computeShader.SetVector("inheritedPosition", transform.position);
                     computeShader.SetVector("lifeRange", new Vector2(minLifetime, maxLifetime));
                     computeShader.SetVector("time", new Vector2(Time.deltaTime, Time.time));
+
                     computeShader.SetInt("colorMode", (int)colorMode);
-                    computeShader.SetVector("color", color);
+                    if (colorMode == ColorMode.Constant)
+                    {
+                        computeShader.SetVector("color", color);
+                    }
+                    else if (colorMode == ColorMode.OverLife)
+                    {
+                        computeShader.SetVector("color", colorOverLife.Evaluate(0f));
+                    }
+
+                    if (sizeMode == SizeMode.Constant)
+                    {
+                        computeShader.SetFloat("size", size);
+                    }
+                    else if (colorMode == ColorMode.OverLife)
+                    {
+                        computeShader.SetFloat("size", sizeOverLife.Evaluate(0f));
+                    }
 
                     computeShader.SetInt("emissionShape", (int)emissionShape);
                     if (emissionShape == EmissionShape.Sphere)
@@ -305,13 +316,23 @@ namespace GPUParticles
             {
                 computeShader.SetBuffer(updateKernel, "particles", particles);
                 computeShader.SetBuffer(updateKernel, "dead", dead);
+                computeShader.SetInt("sizeMode", (int)sizeMode);
+                computeShader.SetInt("colorMode", (int)colorMode);
 
-                if ((int)colorMode == 1)
+                if (colorMode == ColorMode.OverLife)
                 {
-                    computeShader.SetInt("colorMode", (int)colorMode);
-                    computeShader.SetTexture(emitKernel, "colorOverLife", colorOverLifeTexture);
                     computeShader.SetTexture(updateKernel, "colorOverLife", colorOverLifeTexture);
-                    computeShader.SetInt("steps", steps);
+                    computeShader.SetInt("colorSteps", colorSteps);
+                }
+
+                if (sizeMode == SizeMode.OverLife)
+                {
+                    computeShader.SetBuffer(updateKernel, "sizeOverLife", sizeOverLifeBuffer);
+                    computeShader.SetInt("sizeSteps", sizeSteps);
+                }
+                else
+                {
+                    computeShader.SetFloat("size", size);
                 }
 
                 if (enableNoise)
@@ -347,22 +368,11 @@ namespace GPUParticles
 
         private void ReleaseBuffers()
         {
-            if (particles != null)
-            {
-                particles.Release();
-            }
-            if (dead != null)
-            {
-                dead.Release();
-            }
-            if (counter != null)
-            {
-                counter.Release();
-            }
-            if (quads != null)
-            {
-                quads.Release();
-            }
+            if (particles != null) particles.Release();
+            if (dead != null) dead.Release();
+            if (counter != null) counter.Release();
+            if (quad != null) quad.Release();
+            if (sizeOverLifeBuffer != null) sizeOverLifeBuffer.Release();
         }
 
         #endregion
