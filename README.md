@@ -20,6 +20,7 @@ Made with Unity 2017.2 & .3. Might work with older versions. Only tested on Desk
 - [x] Use namespace
 - [x] Add 'Dark Skin' option
 - [ ] ~~Use geometry shader for billboard particles~~ <- reduces performance
+- [ ] Use time instead of CPU-generated seeds for pseudorandomness
 - [ ] Document code
 - [ ] Fix glitches caused by 'Inherit Velocity' after big timesteps
 - [ ] Fix 'Max Particles' change at runtime
@@ -32,7 +33,6 @@ Made with Unity 2017.2 & .3. Might work with older versions. Only tested on Desk
 - [ ] Implement other Emission Shapes
 - [ ] Implement 'Size Over Life'
 - [ ] Implement 'Direction Types' for all Emission Shapes
-- [ ] Improve randomness (pseudorandomness is noticable)
 - [ ] Use DrawMeshProcedural for draw calls
 
 ## License
