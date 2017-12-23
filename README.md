@@ -20,6 +20,7 @@ Made with Unity 2017.2 & .3. Might work with older versions. Only tested on Desk
 - [x] Use namespace
 - [x] Add 'Dark Skin' option
 - [x] Implement Size Module
+- [x] Use DrawProcedural for draw calls
 - [ ] Update particle count in System Module on Update instead of OnGUI
 - [ ] ~~Use geometry shader for billboard particles~~ <- reduces performance
 - [ ] Use time instead of CPU-generated seeds for pseudorandomness
@@ -34,7 +35,6 @@ Made with Unity 2017.2 & .3. Might work with older versions. Only tested on Desk
 - [ ] Implement other rendering methods (Mesh)
 - [ ] Implement other Emission Shapes
 - [ ] Implement 'Direction Types' for all Emission Shapes
-- [ ] Use DrawProcedural for draw calls
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
