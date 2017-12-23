@@ -20,6 +20,7 @@ Made with Unity 2017.2 & .3. Might work with older versions. Only tested on Desk
 - [x] Use namespace
 - [x] Add 'Dark Skin' option
 - [x] Implement Size Module
+- [ ] Update particle count in System Module on Update instead of OnGUI
 - [ ] ~~Use geometry shader for billboard particles~~ <- reduces performance
 - [ ] Use time instead of CPU-generated seeds for pseudorandomness
 - [ ] Document code
