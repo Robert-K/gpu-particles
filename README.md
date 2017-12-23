@@ -34,7 +34,7 @@ Made with Unity 2017.2 & .3. Might work with older versions. Only tested on Desk
 - [ ] Implement other rendering methods (Mesh)
 - [ ] Implement other Emission Shapes
 - [ ] Implement 'Direction Types' for all Emission Shapes
-- [ ] Use DrawMeshProcedural for draw calls
+- [ ] Use DrawProcedural for draw calls
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
