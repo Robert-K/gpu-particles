@@ -6,7 +6,8 @@ Version 2 of my GPU Particle System for [Unity](https://unity3d.com/)
 - Cleaner code
 - Better UI
 - Handles in Scene View
-- Custom Meshes as particles
+- Custom Meshes as particles (3D Particles!)
+- Effectors (Magnets)
 
 ## Some things still don't work.
 - UVs of particle Meshes are messed up
