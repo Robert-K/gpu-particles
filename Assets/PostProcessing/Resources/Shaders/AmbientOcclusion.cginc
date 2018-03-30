@@ -1,5 +1,3 @@
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
 // Upgrade NOTE: commented out 'float4x4 _WorldToCamera', a built-in variable
 // Upgrade NOTE: replaced '_WorldToCamera' with 'unity_WorldToCamera'
 
@@ -71,6 +69,7 @@ float4 _OcclusionTexture_TexelSize;
 half _Intensity;
 float _Radius;
 float _Downsample;
+float3 _FogParams; // x: density, y: start, z: end
 
 // Accessors for packed AO/normal buffer
 fixed4 PackAONormal(fixed ao, fixed3 n)
@@ -210,8 +209,10 @@ float3 PickSamplePoint(float2 uv, float index)
     // Uniformaly distributed points on a unit sphere http://goo.gl/X2F1Ho
 #if defined(FIX_SAMPLING_PATTERN)
     float gn = GradientNoise(uv * _Downsample);
-    float u = frac(UVRandom(0.0, index) + gn) * 2.0 - 1.0;
-    float theta = (UVRandom(1.0, index) + gn) * UNITY_PI_2;
+    // FIXME: This was added to avoid a NVIDIA driver issue.
+    //                                   vvvvvvvvvvvv
+    float u = frac(UVRandom(0.0, index + uv.x * 1e-10) + gn) * 2.0 - 1.0;
+    float theta = (UVRandom(1.0, index + uv.x * 1e-10) + gn) * UNITY_PI_2;
 #else
     float u = UVRandom(uv.x + _Time.x, uv.y + index) * 2.0 - 1.0;
     float theta = UVRandom(-uv.x - _Time.x, uv.y + index) * UNITY_PI_2;
@@ -220,6 +221,28 @@ float3 PickSamplePoint(float2 uv, float index)
     // Make them distributed between [0, _Radius]
     float l = sqrt((index + 1.0) / _SampleCount) * _Radius;
     return v * l;
+}
+
+// Fog handling in forward
+half ComputeFog(float z)
+{
+    half fog = 0.0;
+#if FOG_LINEAR
+    fog = (_FogParams.z - z) / (_FogParams.z - _FogParams.y);
+#elif FOG_EXP
+    fog = exp2(-_FogParams.x * z);
+#else // FOG_EXP2
+    fog = _FogParams.x * z;
+    fog = exp2(-fog * fog);
+#endif
+    return saturate(fog);
+}
+
+float ComputeDistance(float depth)
+{
+    float dist = depth * _ProjectionParams.z;
+    dist -= _ProjectionParams.y;
+    return dist;
 }
 
 //
@@ -283,6 +306,13 @@ half4 FragAO(VaryingsMultitex i) : SV_Target
 
     // Apply other parameters.
     ao = pow(ao * _Intensity / _SampleCount, kContrast);
+
+    // Apply fog when enabled (forward-only)
+#if !FOG_OFF
+    float d = Linear01Depth(SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, uv));
+    d = ComputeDistance(d);
+    ao *= ComputeFog(d);
+#endif
 
     return PackAONormal(ao, norm_o);
 }

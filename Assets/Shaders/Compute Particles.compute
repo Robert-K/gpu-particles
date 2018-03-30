@@ -1,0 +1,161 @@
+#pragma kernel Init
+#pragma kernel Emit
+#pragma kernel Update
+
+#define GROUP_SIZE 256
+#define PI 3.1415926535
+
+#include "./Common.cginc"
+
+//Global Variables
+RWStructuredBuffer<Particle> particles;
+float time;
+float deltaTime;
+int seed;
+
+//Init Kernel Variables
+AppendStructuredBuffer<uint> deadIDsAppend;
+
+//Emit Kernel Variables
+ConsumeStructuredBuffer<uint> deadIDsConsume;
+int emissionShape;
+float sphereRadius;
+float3 boxSize;
+float3 edgeStart;
+float3 edgeEnd;
+float lifespan;
+float lifespanRandomness;
+float3 initialVelocity;
+float speedRandomness;
+float directionSpread;
+float4 color;
+float size;
+float sizeRandomness;
+
+//Update Kernel Variables
+struct Effector
+{
+    float3 position;
+    float force;
+};
+StructuredBuffer<Effector> effectors;
+int effectorCount;
+float3 acceleration;
+float drag;
+bool colorEvolution;
+Texture2D<float4> colorEvolutionTexture;
+SamplerState samplercolorEvolutionTexture;
+bool sizeEvolution;
+StructuredBuffer<float> sizeEvolutionBuffer;
+int sizeSteps;
+
+float rand(int id, int offset)
+{
+    return frac(sin(dot(float3(id * offset, time * offset, seed), float3(12.9898, 78.233, 45.5432))) * 43758.5453);
+}
+
+float3 slerp(float3 a, float3 b, float3 t)
+{
+    float o = dot(a, b);
+    return sin((1.0 - t) * o) / sin(o) * a + sin(t * o) / sin(o) * b;
+}
+
+float3 pointOnSphere(float u, float v, float radius)
+{
+    float theta = 2 * PI * u;
+    float phi = acos(2 * v - 1);
+    float x = radius * sin(phi) * cos(theta);
+    float y = radius * sin(phi) * sin(theta);
+    float z = radius * cos(phi);
+    return float3(x, y, z);
+}
+
+[numthreads(GROUP_SIZE, 1, 1)]
+void Init(uint3 id : SV_DispatchThreadID)
+{
+    particles[id.x].alive = false;
+    deadIDsAppend.Append(id.x);
+}
+
+[numthreads(1, 1, 1)]
+void Emit()
+{
+    uint id = deadIDsConsume.Consume();
+
+    Particle p = particles[id];
+
+    p.alive = true;
+
+    switch (emissionShape)
+    {
+        case 0: //Sphere
+            {
+                p.position = pointOnSphere(rand(id, 1), rand(id, 2), sphereRadius * rand(id, 3));
+                break;
+            }
+        case 1: //Box
+            {
+                p.position = (float3(rand(id, 1), rand(id, 2), rand(id, 3)) - 0.5) * boxSize;
+                break;
+            }
+        case 2: //Edge
+            {
+                p.position = edgeStart + (edgeEnd - edgeStart) * rand(id, 1);
+                break;
+            }
+    }
+
+    if (length(initialVelocity) > 0)  
+        p.velocity = slerp(initialVelocity, pointOnSphere(rand(id, 4), rand(id, 5), length(initialVelocity)), directionSpread) * (1.0 - rand(id, 6) * speedRandomness);
+    else
+        p.velocity = 0.0;
+
+    p.age = 0.0;
+    p.lifespan = lifespan * (1.0 - rand(id, 7) * lifespanRandomness);
+
+    p.size = size * (1.0 - rand(id, 8) * sizeRandomness);
+
+    p.color = color;
+
+    particles[id] = p;
+}
+
+[numthreads(GROUP_SIZE, 1, 1)]
+void Update(uint3 id : SV_DispatchThreadID)
+{
+    Particle p = particles[id.x];
+
+    p.age += deltaTime;
+    
+    for (int i = 0; i < effectorCount; i++)
+    {
+        float3 dir = effectors[i].position - p.position;
+        float dist = length(dir);
+        if (dist > 0.0)
+            p.velocity += normalize(dir) * effectors[i].force / max(0.1, dist) * deltaTime;
+    }
+
+    if (colorEvolution)
+    {
+        p.color = colorEvolutionTexture.SampleLevel(samplercolorEvolutionTexture,float2(p.age / p.lifespan, 0.0),0);
+    }
+
+    if (sizeEvolution)
+    {
+        p.size = sizeEvolutionBuffer[p.age / p.lifespan * sizeSteps] * size;
+    }
+
+    p.velocity += acceleration;
+
+    p.velocity *= drag;
+
+    p.position += p.velocity * deltaTime;
+
+    if (p.alive && p.age > p.lifespan)
+    {
+        p.alive = false;
+        deadIDsAppend.Append(id.x);
+    }
+
+    particles[id.x] = p;
+}

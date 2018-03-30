@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2017
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gpu-particles", "gpu-particles.csproj", "{D2035392-C7FD-E741-0BEF-2DC1C0AA33D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gpu-particles.Editor", "gpu-particles.Editor.csproj", "{AF8EB374-8AC6-D0ED-93AF-5B7C35211688}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D2035392-C7FD-E741-0BEF-2DC1C0AA33D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2035392-C7FD-E741-0BEF-2DC1C0AA33D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2035392-C7FD-E741-0BEF-2DC1C0AA33D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2035392-C7FD-E741-0BEF-2DC1C0AA33D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF8EB374-8AC6-D0ED-93AF-5B7C35211688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF8EB374-8AC6-D0ED-93AF-5B7C35211688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF8EB374-8AC6-D0ED-93AF-5B7C35211688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF8EB374-8AC6-D0ED-93AF-5B7C35211688}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

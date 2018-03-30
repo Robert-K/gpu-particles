@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: b81cab4016edbf14b987401aceaa516e
+timeCreated: 1518952001
+licenseType: Free
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - particleMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  - particleMaterial: {fileID: 2100000, guid: 1ec2a3df21e0cd94d98c91e5ef2f63e3, type: 2}
+  - defaultMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  - computeShader: {fileID: 7200000, guid: aa838421278bdb04dae9fa1c96da2c83, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,19 @@
+Base path: C:/Program Files/Unity/Editor/Data
+Cmd: initializeCompiler
+Cmd: compileComputeKernel
+  api=4 insize=2542 outsize=1485 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=2614 outsize=1485 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=2611 outsize=2693 ok=1
+Cmd: compileComputeKernel
+  error: 2 plat 4 at Particles.compute(94): if statement conditional expressions must evaluate to a scalar
+  api=4 insize=2608 outsize=0 ok=0
+Cmd: compileComputeKernel
+  api=4 insize=2609 outsize=1521 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=2619 outsize=1549 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=2619 outsize=1549 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=3246 outsize=1549 ok=1
