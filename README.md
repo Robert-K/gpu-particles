@@ -17,7 +17,7 @@ Version 2 of my GPU Particle System for [Unity](https://unity3d.com/)
 
 ## I need your help!
 Unfortunately I don't have enough time to fix all of the remaining problems myself (at the moment).
-If you are into Unity, Compute shaders and/or C#, feel free to create Issues and Pull requests.
+If you are into Unity, Compute shaders and/or C#, feel free to create Issues and Pull requests and [contact me](https://kosro.de/#contact).
 I would love to collaborate with you!
 
 ## Compatability
