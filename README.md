@@ -13,28 +13,8 @@ A GPU Particle System for [Unity](https://unity3d.com/)
 ## System Requirements
 Made with Unity 2017.2 & .3. Might work with older versions. Only tested on Desktop with Nvidia GPU.
 
-## To do
-- [x] Implement 'Emission Extrapolation' to compensate emission at high velocities
-- [x] Implement 'Linear Drag'
-- [x] Implement 'Time Scale'
-- [x] Use namespace
-- [x] Add 'Dark Skin' option
-- [x] Implement Size Module
-- [x] Use DrawProcedural for draw calls
-- [ ] Update particle count in System Module on Update instead of OnGUI
-- [ ] ~~Use geometry shader for billboard particles~~ <- reduces performance
-- [ ] Use time instead of CPU-generated seeds for pseudorandomness
-- [ ] Document code
-- [ ] Fix glitches caused by 'Inherit Velocity' after big timesteps
-- [ ] Fix 'Max Particles' change at runtime
-- [ ] Add 'Particle' Module to change appearance
-- [ ] Make system run in Edit Mode
-- [ ] Change 'Inherit Velocity' to work with transformation matrices
-- [ ] Implement 'External Forces'
-- [ ] Implement 'Screen Space Collision'
-- [ ] Implement other rendering methods (Mesh)
-- [ ] Implement other Emission Shapes
-- [ ] Implement 'Direction Types' for all Emission Shapes
+## I need your help!
+I am currently stuck developing version 2 of the particle system because of some nasty bugs. V2 is rewritten from scratch and will improve on V1's features as well as introduce new ones. If you are into C# and Compute Shaders and would like V2 to be stable asap, please consider contributing. Thanks!
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
