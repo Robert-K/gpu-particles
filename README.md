@@ -14,7 +14,7 @@ A GPU Particle System for [Unity](https://unity3d.com/)
 Made with Unity 2017.2 & .3. Might work with older versions. Only tested on Desktop with Nvidia GPU.
 
 ## I need your help!
-I am currently stuck developing version 2 of the particle system because of some nasty bugs. V2 is rewritten from scratch and will improve on V1's features as well as introduce new ones. If you are into C# and Compute Shaders and would like V2 to be stable asap, please consider contributing. Thanks!
+I am currently stuck developing version 2 of the particle system because of some nasty bugs. V2 is rewritten from scratch and will improve on V1's features as well as introduce new ones. It's in this repo's v2 branch. If you are into C# and Compute Shaders and would like V2 to be stable asap, please consider contributing. Thanks!
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
