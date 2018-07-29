@@ -22,3 +22,5 @@ I am currently stuck developing version 2 of the particle system because of some
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 The included sIBL images are from [sIBL Archive](http://www.hdrlabs.com/sibl/archive.html).
+
+[![forthebadge](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](https://forthebadge.com)
