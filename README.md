@@ -23,4 +23,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 The included sIBL images are from [sIBL Archive](http://www.hdrlabs.com/sibl/archive.html).
 
-[![forthebadge](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/made-with-c-sharp.svg)](https://forthebadge.com)
