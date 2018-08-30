@@ -7,6 +7,8 @@ namespace GPUParticles
     [AddComponentMenu("GPU Particle Emitter")]
     public class GPUParticles : MonoBehaviour
     {
+        //Public properties / variables exposed to the custom editor
+        //Also initialization for default values
         #region Public Properties
 
         #region General Properties
@@ -138,6 +140,7 @@ namespace GPUParticles
 
         #endregion
 
+        //Private variable and struct declarations
         #region Private Variables
 
         private float time, deltaTime;
@@ -189,8 +192,12 @@ namespace GPUParticles
 
         #endregion
 
+        //Public methods exposed to the custom editor and external scripts
         #region Public Methods
-
+      
+        //Initializes / resets everything necessary
+        //Sets buffer sizes
+        //Dispatches kernel on GPU to initialize buffers
         public void DispatchInit()
         {
             ReleaseBuffers();
@@ -200,6 +207,7 @@ namespace GPUParticles
             groupCount = Mathf.CeilToInt((float)maxParticles / GROUP_SIZE);
             bufferSize = groupCount * GROUP_SIZE;
 
+            ResetEmissionInterval();
             UpdateColorEvolutionTexture();
             UpdateSizeEvolutionBuffer();
             UpdateEffectorsBuffer();
@@ -224,6 +232,9 @@ namespace GPUParticles
             deadCount = (uint)bufferSize;
         }
 
+        //Emits <count> particles (or less if maxParticles is reached)
+        //Passes parameters relevant to emission to GPU
+        //Dispatches emission kernel
         public void DispatchEmit(uint count)
         {
             count = (uint)Mathf.Min(count, maxParticles - AliveCount);
@@ -281,6 +292,9 @@ namespace GPUParticles
             }
         }
 
+        //Updates particle simulation
+        //Passes parameters relevant to simulation update to GPU
+        //Dispatches update kernel
         public void DispatchUpdate()
         {
             computeShader.SetFloat("time", time);
@@ -317,11 +331,13 @@ namespace GPUParticles
             UpdateDeadCount();
         }
 
+        //Exposed for custom editor to call on emissionRate change
         public void ResetEmissionInterval()
         {
             emissionInterval = 0f;
         }
 
+        //Turns effectors array into buffer that can be passed to GPU
         public void UpdateEffectorsBuffer()
         {
             ReleaseBuffer(effectorsBuffer);
@@ -336,6 +352,7 @@ namespace GPUParticles
             }
         }
 
+        //Turns particleMesh into buffer for custom GPU instancing
         public void UpdateMeshBuffer()
         {
             if (particleMesh == null)
@@ -354,6 +371,7 @@ namespace GPUParticles
             meshBuffer.SetData(data);
         }
 
+        //Turns colorEvolution gradient into texture that can be passed to GPU
         public void UpdateColorEvolutionTexture()
         {
             colorEvolutionTexture = new Texture2D(colorSteps, 1);
@@ -365,6 +383,7 @@ namespace GPUParticles
             colorEvolutionTexture.Apply();
         }
 
+        //Turns sizeEvolution animation curve into buffer that can be passed to GPU
         public void UpdateSizeEvolutionBuffer()
         {
             if (sizeEvolutionBuffer != null) sizeEvolutionBuffer.Release();
@@ -383,6 +402,7 @@ namespace GPUParticles
 
         #region Private Methods
 
+        //Reads counterArgsBuffer to find out how many particles in particlesBuffer are dead / inactive
         private void UpdateDeadCount()
         {
             if (deadIDsBuffer == null || counterArgsBuffer == null || counterArgsArray == null)
@@ -396,12 +416,14 @@ namespace GPUParticles
             deadCount = counterArgsArray[0];
         }
 
+        //Updates local time and deltaTime variables to allow custom timeScale
         private void UpdateTime()
         {
             time = Time.time * timeScale;
             deltaTime = Time.deltaTime * timeScale;
         }
 
+        //Calculates number of particles to be emitted and emits them
         private void EmissionUpdate()
         {
             if (enableEmission)
@@ -431,6 +453,7 @@ namespace GPUParticles
             }
         }
 
+        //Releases all buffers
         private void ReleaseBuffers()
         {
             ReleaseBuffer(particlesBuffer);
@@ -441,6 +464,7 @@ namespace GPUParticles
             ReleaseBuffer(meshBuffer);
         }
 
+        //Releases passed buffer and sets it to null
         private void ReleaseBuffer(ComputeBuffer buffer)
         {
             if (buffer != null) buffer.Release();
@@ -449,13 +473,16 @@ namespace GPUParticles
 
         #endregion
 
+        //Methods called by Unity
         #region MonoBehaviour Methods
-
+        
+        //Initializes system on awake
         private void Awake()
         {
             DispatchInit();
         }
 
+        //Updates time, emits particles and updates simulation every frame
         private void Update()
         {
             UpdateTime();
@@ -465,6 +492,7 @@ namespace GPUParticles
             DispatchUpdate();
         }
 
+        //Renders particles as procedural mesh with mesh info contained in meshBuffer and location info in particlesBuffer
         private void OnRenderObject()
         {
             if (enableRendering)
@@ -476,6 +504,7 @@ namespace GPUParticles
             }
         }
 
+        //Releases buffers when destroyed
         private void OnDestroy()
         {
             ReleaseBuffers();
