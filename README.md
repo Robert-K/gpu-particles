@@ -16,7 +16,7 @@ Note that not all options/features in the inspector have been fully implemented.
 Made with Unity 2017.2 & .3. Might work with older versions. Only tested on Desktop with Nvidia GPU. Latest test: 2018.2.0f2; working
 
 ## I need your help!
-I am currently stuck developing version 2 of the particle system because of some nasty bugs. V2 is rewritten from scratch and will improve on V1's features as well as introduce new ones. It's in this repo's v2 branch. If you are into C# and Compute Shaders and would like V2 to be stable asap, feel free to [get in touch with me](https://kosro.de/#contact). I'd love to cooperate with you! 
+I am currently stuck developing version 2 of the particle system because of some nasty bugs. V2 is rewritten from scratch and will improve on V1's features as well as introduce new ones. It's in this repo's v2 branch. If you are into C# and Compute Shaders and would like V2 to be stable asap, feel free to contribute or [get in touch with me](https://kosro.de/#contact). I'd love to cooperate with you! 
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
